@@ -1,3 +1,5 @@
+[![devDependency Status](https://david-dm.org/qld-gov-au/qg.swe.charts/dev-status.svg)](https://david-dm.org/qld-gov-au/qg.swe.charts#info=devDependencies)
+
 qg.swe.charts
 =============
 
