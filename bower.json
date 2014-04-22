@@ -1,11 +1,13 @@
 {
   "name": "qg.swe.charts",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "authors": [
     "Ben Boyle <benjamins.boyle@gmail.com>"
   ],
   "description": "Charts for Queensland Government websites",
   "keywords": [
+    "qld gov",
+    "qgov",
     "charts",
     "bar",
     "pie",
@@ -17,11 +19,12 @@
   "private": true,
   "ignore": [
     "**/.*",
+    "*.json",
+    "Gruntfile.js",
     "node_modules",
     "bower_components",
     "src",
-    "test",
-    "tests"
+    "test"
   ],
   "dependencies": {
     "flot": "~0.8.2"
