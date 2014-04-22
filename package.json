@@ -1,0 +1,19 @@
+{
+  "name": "qg.swe.charts",
+  "description": "Charts for Queensland Government websites",
+  "version": "0.0.0",
+  "homepage": "https://github.com/qld-gov-au/qg.swe.charts",
+  "bugs": "https://github.com/qld-gov-au/qg.swe.charts/issues",
+  "licenses": [
+    {
+      "type": "BSD (3-Clause)",
+      "url": "https://github.com/qld-gov-au/qg.swe.charts/blob/master/LICENSE"
+    }
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}
