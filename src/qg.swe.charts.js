@@ -198,8 +198,7 @@
 			// prep data for chart
 			xaxis = {};
 			yaxis = {
-				tickDecimals: 0,
-				max: 1
+				tickDecimals: 0
 			};
 
 			// this code works for:
@@ -219,24 +218,21 @@
 
 			switch ( config.type ) {
 			case 'line':
+			case 'bar':
 				// grouping data
 				if ( config.group !== 'row' ) {
 					// [ a, b, c ] => { label: a, data: [[ x1, b ], [ x2, c ]] }
-					data = $.map( data, function( d ) {
+					data = $.map( data, function( d, row ) {
 						return {
 							label: d.shift(),
+							bars: { order: row },
 							data: $.map( d, function( value, col ) {
-								if ( value > yaxis.max ) {
-									yaxis.max = value;
-								}
 								return [[ col, value ]];
 							})
 						};
 					});
 					// col headings = x axis labels
 					xaxis = {
-						tickColor: '#EFEDEE',
-						autoscaleMargin: 0.02, // allow space left and right
 						ticks: $.map( $( 'thead th', table ).slice( 1 ), function( th, col ) {
 							return [[ col, $( th ).text() ]];
 						})
@@ -251,98 +247,43 @@
 					data = $.map( data[ 0 ].slice( 1 ), function( d, col ) {
 						return {
 							label: $( 'thead th', table ).eq( col + 1 ).text(),
+							bars: { order: col },
 							data: $.map( data, function( rowData, row ) {
 								var value = rowData[ col + 1 ];
-								if ( value > yaxis.max ) {
-									yaxis.max = value;
-								}
 								return [[ row, value ]];
 							})
 						};
 					});
 					// row headings = x axis labels
 					xaxis = {
-						tickColor: '#EFEDEE',
-						labelWidth: 10,
-						autoscaleMargin: 0.02, // allow space left and right
 						ticks: $.map( $( 'tbody th', table ), function( th, row ) {
 							return [[ row, $( th ).text() ]];
 						})
 					};
 				}
-				series = {
-					lines: {
-						show: true,
-						lineWidth: 1
-					},
-					points: { show: false }
-				};
-				legend = { show: !! config.legend };
-				if ( typeof config.legend === 'string' && $( config.legend ).length > 0 ) {
-					legend.container = config.legend;
-				}
-				break;
-
-			case 'bar':
-				// grouping data
-				if ( config.group !== 'row' ) {
-					// [ a, b, c ] => { label: a, data: [[ x1, b ], [ x2, c ]] }
-					data = $.map( data, function( d, row ) {
-						return {
-							label: d.shift(),
-							data: $.map( d, function( value, col ) {
-								if ( value > yaxis.max ) {
-									yaxis.max = value;
-								}
-								return [[ row + ( col * ( rows + 1 )), value ]];
-							})
-						};
-					});
-					// col headings = x axis labels
-					xaxis = {
-						tickColor: '#EFEDEE',
-						autoscaleMargin: 0.02, // allow space left and right
-						ticks: $.map( $( 'thead th', table ).slice( 1 ), function( th, col ) {
-							return [[ Math.floor( rows / 2 ) + ( col * ( rows + 1 )), $( th ).text() ]];
-						})
+				if ( config.type === 'line' ) {
+					series = {
+						lines: {
+							show: true,
+							lineWidth: 1
+						},
+						points: { show: false },
+						shadowSize: 0
 					};
-
 				} else {
-					// group by row
-					// row 1 = [ th, a, b ] -> { label: thead > th, data: [[ x1, a ], [ x2, m ], [ x3, x ]] }
-					// row 2 = [ th, m, n ]
-					// row 3 = [ th, x, y ]
-					// note: assume row headings
-					data = $.map( data[ 0 ].slice( 1 ), function( d, col ) {
-						return {
-							label: $( 'thead th', table ).eq( col + 1 ).text(),
-							data: $.map( data, function( rowData, row ) {
-								var value = rowData[ col + 1 ];
-								if ( value > yaxis.max ) {
-									yaxis.max = value;
-								}
-								return [[ col + ( row * ( cols + 1 )), value ]];
-							})
-						};
-					});
-					// row headings = x axis labels
-					xaxis = {
-						tickColor: '#EFEDEE',
-						labelWidth: 10,
-						autoscaleMargin: 0.02, // allow space left and right
-						ticks: $.map( $( 'tbody th', table ), function( th, row ) {
-							return [[ Math.floor( cols / 2 ) + ( row * ( cols + 1 )), $( th ).text() ]];
-						})
+					// assume bar chart
+					series = {
+						bars: {
+							show: true,
+							// lineWidth: 0,
+							barWidth: 0.5 / data.length,
+							align: 'center',
+							fill: 1.0
+						}
 					};
 				}
-				series = {
-					bars: {
-						show: true,
-						barWidth: 0.75,
-						align: 'center',
-						fill: 1.0
-					}
-				};
+				xaxis.tickColor = '#EFEDEE';
+				xaxis.autoscaleMargin = 0.5 / data.length / data[ 0 ].data.length;
 				legend = { show: !! config.legend };
 				if ( typeof config.legend === 'string' && $( config.legend ).length > 0 ) {
 					legend.container = config.legend;
@@ -396,10 +337,6 @@
 				break;
 			}
 
-			// add margin to yaxis
-			yaxis.max += yaxis.max / 10;
-
-			// console.log( 'chart data', data, xaxis, yaxis );
 			// create chart
 			$.plot( chart, data, {
 				series: series,
