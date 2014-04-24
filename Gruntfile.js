@@ -27,7 +27,21 @@ module.exports = function( grunt ) {
 				stripBanners: true
 			},
 			dist: {
-				src: [ 'src/<%= pkg.name %>.js' ],
+				src: [
+					'bower_components/jquery-jsonp/src/jquery.jsonp.js',
+					'src/lib/data.qld.gov.au.js',
+					'src/lib/jquery.got-style.js',
+					'src/lib/jquery.compact.js',
+					'src/lib/jquery.compact.tabbed.js',
+					'src/lib/jquery.compact.init.js',
+					'bower_components/markdown-js/lib/markdown.js',
+					'src/lib/template.js',
+					'bower_components/flot/jquery.flot.js',
+					'bower_components/jquery.flot.orderBars/index.js',
+					'bower_components/flot/jquery.flot.categories.js',
+					'bower_components/flot/jquery.flot.pie.js',
+					'src/<%= pkg.name %>.js'
+				],
 				dest: 'dist/<%= pkg.name %>.js'
 			}
 		},

@@ -27,6 +27,9 @@
     "test"
   ],
   "dependencies": {
-    "flot": "~0.8.2"
+    "flot": "~0.8.2",
+    "jquery-jsonp": "https://github.com/jaubourg/jquery-jsonp.git#~2.4.0",
+    "jquery.flot.orderBars": "http://www.benjaminbuffet.com/public/js/jquery.flot.orderBars.js",
+    "markdown-js": "https://github.com/evilstreak/markdown-js.git#~0.5.0"
   }
 }
