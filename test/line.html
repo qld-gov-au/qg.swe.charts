@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+	<meta charset="UTF-8">
+	<title>Line chart</title>
+
+	<link rel="stylesheet" href="http://static.qgov.net.au/assets/beta-v2/style/qgov.css">
+	<link rel="stylesheet" href="http://static.qgov.net.au/assets/beta-v2/style/qgov-misc.css">
+
+	<script src="lib/jquery-loader.js"></script>
+	<script id="qgov-environment" src="http://static.qgov.net.au/assets/beta-v2/script/qgov-environment.js"></script>
+	<script type="text/javascript">qg.swe.load({ name: 'data', url: 'data.js' });</script>
+
+	
+</head>
+<body>
+	
+	<h1>Sample line chart</h1>
+
+
+<div id="line-chart">TEST</div>
+<script type="text/javascript">
+(function( $, swe ) {
+    'use strict';
+ 
+    var datafile = '2a716eaf-fc32-490d-88de-9bd71a8b5564';
+ 
+  	var sql = 'SELECT \"Date/Time\" AS \"Date time\", \"Hmax\" AS \"Max wave height\", \"Hsig\" AS \"Sig wave height\" FROM "' + datafile + '" WHERE \"Site Number\" = 13 AND \"Date/Time\" BETWEEN \'2014-04-07\' AND \'2014-04-08\'';
+
+    swe.data({
+        env: 'STAGING',
+        container: 'line-chart',
+        title: 'Line chart',
+        headings: [ 'Date time', 'Max wave height', 'Sig wave height' ],
+        group: 'row',
+        sql: sql,
+        type: 'line'
+    });
+ 
+}( jQuery, qg.swe ));
+</script>
+
+
+	<script src="http://static.qgov.net.au/assets/beta-v2/script/qgov.js"></script>
+
+	<script>
+	// script loaded
+	qg.swe.loaded = function( funcName, newFunction ) {
+		var args, funcData;
+		funcData = qg.swe.load[ funcName ];
+		qg.swe[ funcName ] = newFunction;
+		// execute all queued function calls
+		while ( funcData.q.length > 0 ) {
+			args = funcData.q.shift();
+			qg.swe[ funcName ].apply( qg.swe, args );
+		}
+		// cleanup
+		delete qg.swe.load[ funcName ];
+	};
+	</script>
+
+	<script src="../dist/qg.swe.charts.js"></script>
+</body>
+</html>

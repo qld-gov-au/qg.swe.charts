@@ -64,12 +64,18 @@ module.exports = function( grunt ) {
 				src: [
 					'Gruntfile.js',
 					'.jshintrc',
+					'src/.jshintrc',
+					'test/.jshintrc',
 					'*.json'
 				]
 			},
 			src: {
 				options: { jshintrc: 'src/.jshintrc' },
 				src: [ 'src/**/*.js' ]
+			},
+			test: {
+				options: { jshintrc: 'test/.jshintrc' },
+				src: [ 'test/**/*.js' ]
 			},
 		},
 
@@ -81,7 +87,11 @@ module.exports = function( grunt ) {
 			},
 			src: {
 				files: '<%= jshint.src.src %>',
-				tasks: [ 'jshint:src' ]
+				tasks: [ 'default' ]
+			},
+			test: {
+				files: '<%= jshint.test.src %>',
+				tasks: [ 'jshint:test' ]
 			}
 		}
 	});

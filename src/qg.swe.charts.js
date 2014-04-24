@@ -391,7 +391,7 @@
 		}
 
 		// get data from CKAN
-		qg.data.get( 'data.qld.gov.au', config.sql, callback[ config.type ] );
+		qg.data.get(( config.env === 'STAGING' ? 'staging.' : '' ) + 'data.qld.gov.au', config.sql, callback[ config.type ] );
 	});
 
 
